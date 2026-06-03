@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex-server
+    network_mode: host
+    environment:
+      - PLEX_UID=1000
+      - PLEX_GID=1000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /srv/podman/plex-server/config:/config:Z,U
+      - /mnt/storage/Movies:/data/movies:z,ro
+      - /mnt/storage/TV_Shows:/data/tv_shows:z,ro
+    restart: unless-stopped
+
