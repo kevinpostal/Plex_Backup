@@ -1,0 +1,25 @@
+[Unit]
+Description=Plex Media Server Quadlet
+After=network-online.target
+
+[Container]
+Image=lscr.io/linuxserver/plex:latest
+ContainerName=plex-server
+# Using host network for easier discovery of Plex players
+Network=host
+
+# Environment Variables
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=America/Los_Angeles
+# Get a claim token from https://www.plex.tv/claim/ and set it below
+Environment=PLEX_CLAIM=claim-XXXXXXXXXXXXXXXXXX
+
+# Volume Mapping with :Z (SELinux) and :U (User Mapping)
+Volume=/srv/podman/plex-server/config:/config:Z,U
+Volume=/mnt/storage/Movies:/data/movies:z,ro
+Volume=/mnt/storage/TV_Shows:/data/tv_shows:z,ro
+
+[Install]
+# This makes it start automatically on boot
+WantedBy=default.target

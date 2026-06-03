@@ -6,7 +6,34 @@ Rootless Podman container running [LinuxServer Plex](https://docs.linuxserver.io
 
 | File | Purpose |
 |---|---|
-| `podman-compose.yml` | Podman Compose definition |
+| `plex.container` | systemd Quadlet definition (drop in `~/.config/containers/systemd/`) |
+| `podman-compose.yml` | Podman Compose equivalent (optional) |
+
+## Deploy / redeploy
+
+### 1. Clone or copy this repo
+
+```bash
+cd /srv/podman/plex-server
+```
+
+### 2. Set your Plex claim token
+
+Edit `plex.container` and replace `claim-XXXXXXXXXXXXXXXXXX` with a real claim token from https://www.plex.tv/claim/.
+
+### 3. Install the Quadlet
+
+```bash
+cp plex.container ~/.config/containers/systemd/
+systemctl --user daemon-reload
+systemctl --user start plex.service
+```
+
+To start automatically on boot:
+
+```bash
+systemctl --user enable plex.service
+```
 
 ## Volumes (host → container)
 
